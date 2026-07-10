@@ -26,6 +26,12 @@ export default function Nav() {
       >
         Vergleich
       </Link>
+      <Link
+        href="/statistik"
+        className={`tab ${pathname === "/statistik" ? "active" : ""}`}
+      >
+        Statistik
+      </Link>
       <Link href="/neu" className={`tab ${pathname === "/neu" ? "active" : ""}`}>
         Eintragen
       </Link>

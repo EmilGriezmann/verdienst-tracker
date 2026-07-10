@@ -73,31 +73,8 @@ export default function Dashboard() {
       .sort((a, b) => b.total - a.total);
   }, [rows]);
 
-  // Gearbeitete Stunden pro Person (nur Einträge mit Stundenangabe)
-  const perPersonHours = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const r of rows) {
-      if (r.hours == null) continue;
-      map.set(r.user_name, (map.get(r.user_name) ?? 0) + Number(r.hours));
-    }
-    return [...map.entries()]
-      .map(([name, hours]) => ({ name, hours }))
-      .sort((a, b) => b.hours - a.hours);
-  }, [rows]);
-
-  // Summe pro Kategorie (nur für die eigene Person)
-  const myCategories = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const r of rows) {
-      if (r.user_name !== user) continue;
-      map.set(r.category, (map.get(r.category) ?? 0) + Number(r.amount));
-    }
-    return [...map.entries()].sort((a, b) => b[1] - a[1]);
-  }, [rows, user]);
-
   const grandTotal = perPerson.reduce((s, p) => s + p.total, 0);
   const max = perPerson[0]?.total ?? 0;
-  const maxHours = perPersonHours[0]?.hours ?? 0;
 
   function prevMonth() {
     if (month === 0) {
@@ -172,48 +149,6 @@ export default function Dashboard() {
                       }}
                     />
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {perPersonHours.length > 0 && (
-            <div className="hours-compare">
-              <h3>Gearbeitete Stunden</h3>
-              {perPersonHours.map((p) => (
-                <div
-                  className={`hours-row ${p.name === user ? "me" : ""}`}
-                  key={p.name}
-                >
-                  <span className="hours-name">
-                    {p.name}
-                    {p.name === user && <span className="tag">du</span>}
-                  </span>
-                  <div className="hours-bar">
-                    <span
-                      style={{
-                        width:
-                          maxHours > 0
-                            ? `${(p.hours / maxHours) * 100}%`
-                            : "0%",
-                      }}
-                    />
-                  </div>
-                  <span className="hours-val">
-                    {p.hours.toLocaleString("de-DE")} h
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {myCategories.length > 0 && (
-            <div className="breakdown">
-              <h3>Deine Einkünfte nach Kategorie</h3>
-              {myCategories.map(([cat, sum]) => (
-                <div className="cat-row" key={cat}>
-                  <span>{cat}</span>
-                  <span>{euro(sum)}</span>
                 </div>
               ))}
             </div>

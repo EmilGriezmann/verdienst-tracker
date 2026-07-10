@@ -312,55 +312,95 @@ button {
   border-radius: 4px;
 }
 
-/* Kleinerer Stunden-Vergleich unter der Geld-Rangliste */
-.hours-compare {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
+/* ---------- Statistik-Tab ---------- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
 }
-.hours-compare h3 {
+.kpi {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.kpi-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--blue-dark);
+  line-height: 1.1;
+}
+.kpi-label {
   font-size: 13px;
   color: var(--text-muted);
-  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.stat-card h3 {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 16px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
-.hours-row {
-  display: grid;
-  grid-template-columns: 110px 1fr auto;
+
+/* Balken-Diagramm 6 Monate */
+.trend {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 180px;
+}
+.trend-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 5px 0;
-  font-size: 13px;
-}
-.hours-name {
-  font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.hours-row.me .hours-name {
-  color: var(--blue);
-}
-.hours-bar {
-  height: 6px;
-  border-radius: 3px;
-  background: var(--blue-light);
-  overflow: hidden;
-}
-.hours-bar span {
-  display: block;
   height: 100%;
-  background: var(--blue);
-  border-radius: 3px;
 }
-.hours-val {
+.trend-amount {
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
-  min-width: 48px;
-  text-align: right;
+  margin-bottom: 4px;
+  min-height: 14px;
+}
+.trend-bar-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.trend-bar {
+  width: 70%;
+  min-height: 3px;
+  background: var(--blue);
+  border-radius: 6px 6px 0 0;
+  transition: height 0.3s ease;
+}
+.trend-col:last-child .trend-bar {
+  background: var(--blue-dark);
+}
+.trend-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 8px;
 }
 
 .empty {
