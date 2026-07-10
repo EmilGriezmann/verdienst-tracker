@@ -134,23 +134,6 @@ export default function Statistik() {
   return (
     <div className="container">
       <h1>Deine Statistik</h1>
-      <p className="subtitle">Nur deine eigenen Zahlen — für dich, {user}.</p>
-
-      <div className="month-switch">
-        <button onClick={prevMonth} aria-label="Vorheriger Monat">
-          ‹
-        </button>
-        <span className="label">
-          {MONTHS[month]} {year}
-        </span>
-        <button
-          onClick={nextMonth}
-          disabled={isCurrentMonth}
-          aria-label="Nächster Monat"
-        >
-          ›
-        </button>
-      </div>
 
       {loading && <p className="empty">Lädt…</p>}
       {error && <div className="msg err">{error}</div>}
@@ -232,6 +215,23 @@ export default function Statistik() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Zeitraum wechseln — bewusst unter dem Graphen */}
+          <div className="month-switch" style={{ marginTop: 24 }}>
+            <button onClick={prevMonth} aria-label="Vorheriger Monat">
+              ‹
+            </button>
+            <span className="label">
+              {MONTHS[month]} {year}
+            </span>
+            <button
+              onClick={nextMonth}
+              disabled={isCurrentMonth}
+              aria-label="Nächster Monat"
+            >
+              ›
+            </button>
           </div>
 
           <p className="total-line" style={{ marginTop: 24 }}>

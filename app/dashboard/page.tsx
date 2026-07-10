@@ -99,7 +99,6 @@ export default function Dashboard() {
   return (
     <div className="container">
       <h1>Vergleich</h1>
-      <p className="subtitle">Wer hat diesen Monat am meisten verdient?</p>
 
       <div className="month-switch">
         <button onClick={prevMonth} aria-label="Vorheriger Monat">

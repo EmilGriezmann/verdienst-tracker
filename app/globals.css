@@ -45,6 +45,7 @@ a {
 .tabs {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 12px 16px;
   overflow-x: auto;

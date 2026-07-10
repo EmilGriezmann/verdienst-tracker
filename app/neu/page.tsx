@@ -32,7 +32,6 @@ export default function NewEntry() {
   const [total, setTotal] = useState("");
   const [rate, setRate] = useState("");
   const [hours, setHours] = useState("");
-  const [note, setNote] = useState("");
   const [date, setDate] = useState(today());
 
   // null = neuer Eintrag, sonst wird der Eintrag mit dieser id bearbeitet
@@ -83,7 +82,6 @@ export default function NewEntry() {
     setTotal("");
     setRate("");
     setHours("");
-    setNote("");
     setDate(today());
   }
 
@@ -98,7 +96,6 @@ export default function NewEntry() {
       amount: Number(computed.toFixed(2)),
       hourly_rate: mode === "hourly" ? parseFloat(rate) : null,
       hours: mode === "hourly" ? parseFloat(hours) : null,
-      note: note.trim() || null,
       earned_on: date,
     };
 
@@ -124,7 +121,6 @@ export default function NewEntry() {
   function startEdit(e: Earning) {
     setEditingId(e.id);
     setCategory(e.category);
-    setNote(e.note ?? "");
     setDate(e.earned_on);
     if (e.hours != null) {
       setMode("hourly");
@@ -158,9 +154,6 @@ export default function NewEntry() {
   return (
     <div className="container">
       <h1>{editingId ? "Eintrag bearbeiten" : "Neue Einkunft"}</h1>
-      <p className="subtitle">
-        {editingId ? "Ändere die Werte und speichere." : "Trag ein, was du verdient hast."}
-      </p>
 
       <div className="card">
         {/* Kategorie */}
@@ -236,23 +229,13 @@ export default function NewEntry() {
           </>
         )}
 
-        <div className="row" style={{ marginTop: 6 }}>
-          <div className="field">
-            <label>Datum</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-          <div className="field">
-            <label>Notiz (optional)</label>
-            <input
-              placeholder="z. B. Kellnern Samstag"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-            />
-          </div>
+        <div className="field" style={{ marginTop: 6 }}>
+          <label>Datum</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
         </div>
 
         <button className="btn" onClick={save} disabled={!canSave || saving}>
