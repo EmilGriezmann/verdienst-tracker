@@ -186,15 +186,13 @@ export default function Statistik() {
           {categories.length > 0 && (
             <div className="stat-card">
               <h3>Nach Kategorie</h3>
-              <div className="rank" style={{ gap: 10 }}>
+              <div className="cat-list">
                 {categories.map(([cat, sum]) => (
-                  <div key={cat} className="rank-row" style={{ padding: "12px 14px" }}>
-                    <span className="rank-name" style={{ gridColumn: "1 / 2" }}>
-                      {cat}
-                    </span>
-                    <span className="rank-amount" style={{ fontSize: 16 }}>
-                      {euro(sum)}
-                    </span>
+                  <div key={cat} className="cat-stat">
+                    <div className="cat-stat-head">
+                      <span className="cat-stat-name">{cat}</span>
+                      <span className="cat-stat-amount">{euro(sum)}</span>
+                    </div>
                     <div className="bar">
                       <span
                         style={{

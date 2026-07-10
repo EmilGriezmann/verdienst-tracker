@@ -19,37 +19,37 @@ export default function Nav() {
 
   return (
     <nav className="nav">
-      <span className="brand">💶 Verdienste</span>
-      <Link
-        href="/dashboard"
-        className={`tab ${pathname === "/dashboard" ? "active" : ""}`}
-      >
-        Vergleich
-      </Link>
-      <Link
-        href="/statistik"
-        className={`tab ${pathname === "/statistik" ? "active" : ""}`}
-      >
-        Statistik
-      </Link>
-      <Link href="/neu" className={`tab ${pathname === "/neu" ? "active" : ""}`}>
-        Eintragen
-      </Link>
-      {user && (
-        <span className="who">
-          <b>{user}</b>{" "}
+      <div className="tabs">
+        <Link
+          href="/dashboard"
+          className={`tab ${pathname === "/dashboard" ? "active" : ""}`}
+        >
+          Vergleich
+        </Link>
+        <Link
+          href="/statistik"
+          className={`tab ${pathname === "/statistik" ? "active" : ""}`}
+        >
+          Statistik
+        </Link>
+        <Link
+          href="/neu"
+          className={`tab ${pathname === "/neu" ? "active" : ""}`}
+        >
+          Eintragen
+        </Link>
+        {user && (
           <button
-            className="btn-ghost"
-            style={{ padding: "4px 8px", marginLeft: 6, fontSize: 12 }}
+            className="tab-user"
             onClick={() => {
               clearUser();
               router.push("/");
             }}
           >
-            wechseln
+            {user} · wechseln
           </button>
-        </span>
-      )}
+        )}
+      </div>
     </nav>
   );
 }
