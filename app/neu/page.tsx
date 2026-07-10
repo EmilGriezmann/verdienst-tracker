@@ -153,8 +153,6 @@ export default function NewEntry() {
 
   return (
     <div className="container">
-      <h1>{editingId ? "Eintrag bearbeiten" : "Neue Einkunft"}</h1>
-
       <div className="card">
         {/* Kategorie */}
         <div className="field">

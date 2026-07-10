@@ -98,8 +98,6 @@ export default function Dashboard() {
 
   return (
     <div className="container">
-      <h1>Vergleich</h1>
-
       <div className="month-switch">
         <button onClick={prevMonth} aria-label="Vorheriger Monat">
           ‹
