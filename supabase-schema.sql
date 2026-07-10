@@ -46,9 +46,15 @@ create policy "users_read" on public.users for select using (true);
 drop policy if exists "users_insert" on public.users;
 create policy "users_insert" on public.users for insert with check (true);
 
--- earnings: jeder darf lesen und eintragen
+-- earnings: jeder darf lesen, eintragen, bearbeiten und löschen
 drop policy if exists "earnings_read" on public.earnings;
 create policy "earnings_read" on public.earnings for select using (true);
 
 drop policy if exists "earnings_insert" on public.earnings;
 create policy "earnings_insert" on public.earnings for insert with check (true);
+
+drop policy if exists "earnings_update" on public.earnings;
+create policy "earnings_update" on public.earnings for update using (true) with check (true);
+
+drop policy if exists "earnings_delete" on public.earnings;
+create policy "earnings_delete" on public.earnings for delete using (true);

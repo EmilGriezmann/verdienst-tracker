@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase, type Earning } from "@/lib/supabase";
 import { getUser } from "@/lib/user";
+import { userColor } from "@/lib/colors";
 
 const MONTHS = [
   "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -138,6 +139,11 @@ export default function Dashboard() {
                 >
                   <span className="rank-pos">{i + 1}</span>
                   <span className="rank-name">
+                    <span
+                      className="dot"
+                      style={{ background: userColor(p.name) }}
+                      aria-hidden
+                    />
                     {p.name}
                     {p.name === user && <span className="tag">du</span>}
                   </span>
@@ -146,6 +152,7 @@ export default function Dashboard() {
                     <span
                       style={{
                         width: max > 0 ? `${(p.total / max) * 100}%` : "0%",
+                        background: userColor(p.name),
                       }}
                     />
                   </div>

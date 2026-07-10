@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Nav from "./Nav";
+import Footer from "./Footer";
 
 export const metadata: Metadata = {
   title: "Verdienste-Tracker",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );

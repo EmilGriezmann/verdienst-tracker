@@ -1,18 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getUser, clearUser } from "@/lib/user";
+import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const pathname = usePathname();
-  const router = useRouter();
-  const [user, setUserState] = useState<string | null>(null);
-
-  useEffect(() => {
-    setUserState(getUser());
-  }, [pathname]);
 
   // Auf der Namensauswahl keine Navigation zeigen.
   if (pathname === "/") return null;
@@ -38,17 +30,6 @@ export default function Nav() {
         >
           Eintragen
         </Link>
-        {user && (
-          <button
-            className="tab-user"
-            onClick={() => {
-              clearUser();
-              router.push("/");
-            }}
-          >
-            {user} · wechseln
-          </button>
-        )}
       </div>
     </nav>
   );

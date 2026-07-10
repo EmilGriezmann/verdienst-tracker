@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase, type Earning } from "@/lib/supabase";
 import { getUser } from "@/lib/user";
+import { userColor } from "@/lib/colors";
 
 const MONTHS = [
   "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -128,6 +129,8 @@ export default function Statistik() {
 
   if (!user) return null;
 
+  const meColor = userColor(user);
+
   return (
     <div className="container">
       <h1>Deine Statistik</h1>
@@ -197,6 +200,7 @@ export default function Statistik() {
                       <span
                         style={{
                           width: catMax > 0 ? `${(sum / catMax) * 100}%` : "0%",
+                          background: meColor,
                         }}
                       />
                     </div>
@@ -218,7 +222,10 @@ export default function Statistik() {
                   <div className="trend-bar-wrap">
                     <div
                       className="trend-bar"
-                      style={{ height: `${(t.total / trendMax) * 100}%` }}
+                      style={{
+                        height: `${(t.total / trendMax) * 100}%`,
+                        background: meColor,
+                      }}
                     />
                   </div>
                   <span className="trend-label">{t.label}</span>
