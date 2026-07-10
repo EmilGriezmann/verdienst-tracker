@@ -139,11 +139,6 @@ export default function Dashboard() {
                 >
                   <span className="rank-pos">{i + 1}</span>
                   <span className="rank-name">
-                    <span
-                      className="dot"
-                      style={{ background: userColor(p.name) }}
-                      aria-hidden
-                    />
                     {p.name}
                     {p.name === user && <span className="tag">du</span>}
                   </span>
