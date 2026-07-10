@@ -1,0 +1,429 @@
+:root {
+  /* Blau-Palette */
+  --blue: #2563eb; /* Hauptblau */
+  --blue-dark: #1e3a8a; /* Dunkelblau */
+  --blue-light: #dbeafe; /* Hellblau (Flächen) */
+  --blue-light-2: #eff6ff; /* Noch heller (Hover) */
+
+  --bg: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  /* App-Standardschrift (System-Font-Stack) */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Layout ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.nav .brand {
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-right: auto;
+  font-size: 18px;
+}
+.nav a.tab {
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+.nav a.tab.active {
+  background: var(--blue-light);
+  color: var(--blue-dark);
+}
+.nav a.tab:hover {
+  background: var(--blue-light-2);
+}
+.nav .who {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+.nav .who b {
+  color: var(--blue);
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 0 0 4px;
+}
+.subtitle {
+  color: var(--text-muted);
+  margin: 0 0 24px;
+  font-size: 15px;
+}
+
+/* ---------- Karten ---------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Formular ---------- */
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.field {
+  margin-bottom: 18px;
+}
+input,
+select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-light);
+}
+.row {
+  display: flex;
+  gap: 14px;
+}
+.row > * {
+  flex: 1;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+}
+.btn:hover {
+  background: var(--blue-dark);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--blue);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  background: var(--blue-light-2);
+}
+
+/* Umschalter Stundensatz / Gesamtbetrag */
+.toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.toggle button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.toggle button.on {
+  background: var(--blue-light);
+  border-color: var(--blue);
+  color: var(--blue-dark);
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+.result {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--blue-dark);
+}
+.msg {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+.msg.ok {
+  background: var(--blue-light);
+  color: var(--blue-dark);
+}
+.msg.err {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ---------- Dashboard ---------- */
+.month-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.month-switch button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-size: 20px;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.month-switch button:hover {
+  background: var(--blue-light-2);
+}
+.month-switch button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.month-switch .label {
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 170px;
+  text-align: center;
+  color: var(--blue-dark);
+}
+
+.total-line {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  font-size: 15px;
+}
+.total-line b {
+  color: var(--text);
+  font-size: 17px;
+}
+
+.rank {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rank-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+.rank-row.me {
+  border-color: var(--blue);
+  background: var(--blue-light-2);
+}
+.rank-pos {
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: center;
+}
+.rank-row.first .rank-pos {
+  color: var(--blue);
+}
+.rank-name {
+  font-weight: 600;
+}
+.rank-name .tag {
+  font-size: 12px;
+  color: var(--blue);
+  margin-left: 6px;
+}
+.rank-amount {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--blue-dark);
+}
+.bar {
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--blue-light);
+  overflow: hidden;
+}
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+  border-radius: 4px;
+}
+
+/* Kleinerer Stunden-Vergleich unter der Geld-Rangliste */
+.hours-compare {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.hours-compare h3 {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.hours-row {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  font-size: 13px;
+}
+.hours-name {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hours-row.me .hours-name {
+  color: var(--blue);
+}
+.hours-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--blue-light);
+  overflow: hidden;
+}
+.hours-bar span {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+  border-radius: 3px;
+}
+.hours-val {
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 48px;
+  text-align: right;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px 0;
+}
+
+/* ---------- Namensauswahl ---------- */
+.center {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.name-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+.name-list button {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+}
+.name-list button:hover {
+  background: var(--blue-light-2);
+  border-color: var(--blue);
+}
+.add-name {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+.add-name input {
+  flex: 1;
+}
+.add-name button {
+  width: auto;
+  white-space: nowrap;
+}
+
+.breakdown {
+  margin-top: 28px;
+}
+.breakdown h3 {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.cat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.cat-row span:last-child {
+  font-weight: 600;
+}
