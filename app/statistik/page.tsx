@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase, type Earning } from "@/lib/supabase";
 import { getUser } from "@/lib/user";
 import { userColor } from "@/lib/colors";
+import { Button, Glass } from "glisse";
 
 const MONTHS = [
   "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -134,19 +135,20 @@ export default function Statistik() {
   return (
     <div className="container">
       <div className="month-switch">
-        <button onClick={prevMonth} aria-label="Vorheriger Monat">
-          ‹
-        </button>
+        <Button
+          onClick={prevMonth}
+          aria-label="Vorheriger Monat"
+          icon={<span aria-hidden>‹</span>}
+        />
         <span className="label">
           {MONTHS[month]} {year}
         </span>
-        <button
+        <Button
           onClick={nextMonth}
           disabled={isCurrentMonth}
           aria-label="Nächster Monat"
-        >
-          ›
-        </button>
+          icon={<span aria-hidden>›</span>}
+        />
       </div>
 
       {loading && <p className="empty">Lädt…</p>}
@@ -156,24 +158,24 @@ export default function Statistik() {
         <>
           {/* KPI-Karten */}
           <div className="kpi-grid">
-            <div className="kpi">
+            <Glass className="kpi">
               <span className="kpi-value">{euro(kpi.verdient)}</span>
               <span className="kpi-label">Verdient</span>
-            </div>
-            <div className="kpi">
+            </Glass>
+            <Glass className="kpi">
               <span className="kpi-value">{hours(kpi.std)}</span>
               <span className="kpi-label">Gearbeitet</span>
-            </div>
-            <div className="kpi">
+            </Glass>
+            <Glass className="kpi">
               <span className="kpi-value">
                 {kpi.avgRate > 0 ? euro(kpi.avgRate) : "–"}
               </span>
               <span className="kpi-label">Ø Stundensatz</span>
-            </div>
-            <div className="kpi">
+            </Glass>
+            <Glass className="kpi">
               <span className="kpi-value">{kpi.count}</span>
               <span className="kpi-label">Einträge</span>
-            </div>
+            </Glass>
           </div>
 
           {monthRows.length === 0 && (
@@ -184,7 +186,7 @@ export default function Statistik() {
 
           {/* Kategorie-Aufschlüsselung */}
           {categories.length > 0 && (
-            <div className="stat-card">
+            <Glass className="stat-card">
               <h3>Nach Kategorie</h3>
               <div className="cat-list">
                 {categories.map(([cat, sum]) => (
@@ -204,11 +206,11 @@ export default function Statistik() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Glass>
           )}
 
           {/* 6-Monats-Verlauf */}
-          <div className="stat-card">
+          <Glass className="stat-card">
             <h3>Letzte 6 Monate</h3>
             <div className="trend">
               {trend.map((t, i) => (
@@ -229,7 +231,7 @@ export default function Statistik() {
                 </div>
               ))}
             </div>
-          </div>
+          </Glass>
 
           <p className="total-line" style={{ marginTop: 24 }}>
             Insgesamt verdient (alle Monate): <b>{euro(allTime)}</b>

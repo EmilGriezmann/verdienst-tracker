@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase, type Earning } from "@/lib/supabase";
 import { getUser } from "@/lib/user";
 import { userColor } from "@/lib/colors";
+import { Button, Glass } from "glisse";
 
 const MONTHS = [
   "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -99,19 +100,20 @@ export default function Dashboard() {
   return (
     <div className="container">
       <div className="month-switch">
-        <button onClick={prevMonth} aria-label="Vorheriger Monat">
-          ‹
-        </button>
+        <Button
+          onClick={prevMonth}
+          aria-label="Vorheriger Monat"
+          icon={<span aria-hidden>‹</span>}
+        />
         <span className="label">
           {MONTHS[month]} {year}
         </span>
-        <button
+        <Button
           onClick={nextMonth}
           disabled={isCurrentMonth}
           aria-label="Nächster Monat"
-        >
-          ›
-        </button>
+          icon={<span aria-hidden>›</span>}
+        />
       </div>
 
       {loading && <p className="empty">Lädt…</p>}
@@ -128,7 +130,7 @@ export default function Dashboard() {
           ) : (
             <div className="rank">
               {perPerson.map((p, i) => (
-                <div
+                <Glass
                   key={p.name}
                   className={`rank-row ${i === 0 ? "first" : ""} ${
                     p.name === user ? "me" : ""
@@ -148,7 +150,7 @@ export default function Dashboard() {
                       }}
                     />
                   </div>
-                </div>
+                </Glass>
               ))}
             </div>
           )}

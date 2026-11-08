@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getUser, clearUser } from "@/lib/user";
 import { userColor } from "@/lib/colors";
+import { Button } from "glisse";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -27,15 +28,15 @@ export default function Footer() {
         />
         Angemeldet als <b>{user}</b>
       </span>
-      <button
-        className="btn-ghost footer-switch"
+      <Button
+        className="footer-switch"
         onClick={() => {
           clearUser();
           router.push("/");
         }}
       >
         Wechseln
-      </button>
+      </Button>
     </footer>
   );
 }

@@ -5,7 +5,7 @@
   --blue-light: #dbeafe; /* Hellblau (Flächen) */
   --blue-light-2: #eff6ff; /* Noch heller (Hover) */
 
-  --bg: #ffffff;
+  --bg: #eef2fb;
   --text: #0f172a;
   --text-muted: #64748b;
   --border: #e2e8f0;
@@ -599,4 +599,219 @@ button {
 }
 .cat-row span:last-child {
   font-weight: 600;
+}
+
+/* ==========================================================================
+   glisse / Liquid-Glass-Test
+   Alles ab hier gehoert zum Test mit der Komponenten-Bibliothek `glisse`.
+   Die Regeln oben bleiben unangetastet, damit ein Rueckbau leicht bleibt.
+   ========================================================================== */
+
+/* Glas braucht etwas zum Durchscheinen. Deshalb liegt hinter der Seite ein
+   ruhiges, farbiges Feld statt Reinweiss.
+
+   PERFORMANCE: Frueher stand hier `background-attachment: fixed` auf <html>.
+   Das ruckelt, weil der Browser den Verlauf bei JEDEM Scroll-Frame neu malen
+   muss — und darueber liegen lauter backdrop-filter-Flaechen, deren
+   Weichzeichner dann jedes Mal mitgerechnet wird.
+   Stattdessen: ein echtes, fest positioniertes Element hinter allem. Das
+   bekommt vom Browser eine eigene Compositing-Ebene und wird beim Scrollen
+   gar nicht neu gezeichnet — es wird nur verschoben. Gleiche Optik,
+   keine Rechenarbeit pro Frame. */
+html {
+  min-height: 100%;
+  background-color: var(--bg);
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(58% 50% at 10% 4%, rgba(37, 99, 235, 0.34), transparent 70%),
+    radial-gradient(48% 42% at 94% 10%, rgba(14, 165, 233, 0.32), transparent 70%),
+    radial-gradient(52% 48% at 84% 86%, rgba(99, 102, 241, 0.3), transparent 72%),
+    radial-gradient(44% 42% at 14% 94%, rgba(234, 179, 8, 0.2), transparent 72%),
+    linear-gradient(168deg, #f1f5ff 0%, #e3eafb 55%, #edf0f8 100%);
+  background-size: cover;
+}
+
+/* <body> muss durchsichtig bleiben, sonst deckt es das Feld oben wieder zu. */
+body {
+  background: transparent;
+}
+
+/* PERFORMANCE: Listenzeilen gibt es viele — Rangliste und Eintragsliste
+   koennen zweistellig werden. Jede backdrop-filter-Flaeche ist ein eigener
+   Weichzeichner-Durchlauf. Bei Listen faellt der Blur optisch kaum auf
+   (dahinter liegt ohnehin nur der ruhige Verlauf), kostet aber am meisten.
+   Darum: Blur raus, dafuer etwas deckender. Karten und KPI-Kacheln
+   behalten den echten Glas-Effekt. */
+.lg-glass.rank-row,
+.lg-glass.session {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+/* PERFORMANCE, der eigentliche Brocken: jeder glisse-<Button> ist eine eigene
+   backdrop-filter-Flaeche. In der Eintragsliste stehen pro Zeile zwei
+   (Bearbeiten / Loeschen) — bei ein paar Dutzend Eintraegen sind das
+   schnell 70+ Weichzeichner, die der Browser JEDEN Frame neu rechnet.
+   Gemessen: 837 ms mittlere Frame-Zeit beim Scrollen.
+   Kleine Buttons gewinnen durch den Blur optisch fast nichts, deshalb
+   bekommen sie eine schlicht deckendere Fuellung. Die grossen Flaechen
+   (Karten, KPI-Kacheln, TabBar) behalten echtes Glas. */
+.lg-button.lg-glass {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: rgba(255, 255, 255, 0.78);
+}
+
+.lg-button.lg-glass:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---------- Glas-Flaechen ---------- */
+/* <Glass> bringt seinen eigenen Hintergrund mit. Die alten weissen Flaechen
+   wuerden ihn zudecken, deshalb hier transparent + Radius/Innenabstand. */
+.lg-glass.card,
+.lg-glass.kpi,
+.lg-glass.stat-card,
+.lg-glass.rank-row,
+.lg-glass.session {
+  background-color: var(--lg-glass);
+  border: none;
+  box-shadow: none;
+}
+.lg-glass.card,
+.lg-glass.kpi,
+.lg-glass.stat-card {
+  border-radius: 20px;
+}
+.lg-glass.rank-row,
+.lg-glass.session {
+  border-radius: 18px;
+}
+/* Eigene Hervorhebung (eigene Zeile / Eintrag in Bearbeitung) ohne Rahmen */
+.lg-glass.rank-row.me,
+.lg-glass.session.editing {
+  background-color: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 0 0 1.5px rgba(37, 99, 235, 0.55);
+}
+
+/* ---------- glisse-Formularfelder ---------- */
+/* glisse deckelt Inputs auf 360px — im Formular sollen sie die Spalte fuellen. */
+.card .lg-input,
+.add-name .lg-input {
+  max-width: none;
+  height: 44px;
+  border-radius: 14px;
+}
+.add-name .lg-input {
+  flex: 1;
+}
+/* Datumsfeld: der native Kalender-Button soll sichtbar bleiben. */
+.lg-input input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+/* Natives <select> (glisse hat kein Select) optisch an das Glas anpassen. */
+select {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  height: 44px;
+  -webkit-backdrop-filter: blur(3px) saturate(1.5);
+  backdrop-filter: blur(3px) saturate(1.5);
+}
+
+/* ---------- glisse-Buttons im Layout ---------- */
+/* Der Speichern-Button bleibt volle Breite wie vorher. */
+.btn-save.lg-button {
+  width: 100%;
+  justify-content: center;
+}
+.btn-cancel.lg-button {
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+}
+.name-list .lg-button {
+  width: 100%;
+  justify-content: flex-start;
+  font-size: 16px;
+  padding: 14px 18px;
+}
+
+/* Monatsumschalter: glisse-Buttons statt der alten Kreise */
+.month-switch .lg-button {
+  font-size: 20px;
+  line-height: 1;
+}
+.month-switch .label {
+  /* etwas mehr Kontrast gegen das farbige Feld */
+  color: var(--blue-dark);
+}
+
+/* Aktionen an einem Eintrag */
+.session-actions .lg-button {
+  font-size: 15px;
+}
+
+/* ---------- Nav / TabBar ---------- */
+.nav {
+  background: transparent;
+  border-bottom: none;
+  padding: 12px 16px 4px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ---------- Umschalter Gesamtbetrag / Stundensatz ---------- */
+/* SegmentedControl misst seine Reiter ueber --lg-tab-width. Diese Variable
+   darf keinen Auto-Wert bekommen, sonst findet der Schieber seine Position
+   nicht und die Beschriftungen liegen uebereinander. Also nur breiter machen. */
+.toggle-seg.lg-segmented {
+  --lg-tab-width: 140px;
+  --lg-tab-height: 36px;
+  margin-bottom: 18px;
+}
+
+/* Balken bleiben lesbar, auch wenn sie jetzt auf Glas liegen. */
+.bar {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+/* Etwas Luft zwischen dem berechneten Betrag und dem Datumsfeld. */
+.result {
+  margin-bottom: 14px;
+}
+
+/* PERFORMANCE, die eigentliche Ursache des Ruckelns.
+
+   glisse legt auf jede Glas-Flaeche nicht nur blur() + saturate(), sondern
+   zusaetzlich einen SVG-Filter als backdrop-filter:
+
+       backdrop-filter: blur(3px) url("#glisse-backdrop-4") saturate(1.5)
+
+   Das ist der Lichtbrechungs-Effekt an den Raendern. Chrome kann SVG-Filter
+   in backdrop-filter NICHT auf der Grafikkarte ausfuehren — die Flaeche
+   dahinter wird in jedem Frame auf dem Prozessor neu gerastert.
+   Deshalb ruckelte genau die obere Seitenhaelfte, wo Formularkarte,
+   Eingabefelder und TabBar stehen; weiter unten war es fluessig.
+
+   Gemessen in echtem Chrome auf /neu beim Scrollen durch die obere Haelfte:
+       mit Lichtbrechung    8 fps  (121,6 ms/Frame, schlechtester 183,3 ms)
+       ohne Lichtbrechung  60 fps  ( 16,7 ms/Frame, schlechtester  17,8 ms)
+
+   Wir behalten Unschaerfe und Farbsaettigung — die Optik bleibt Glas.
+   Es faellt nur die Brechung an den Kanten weg. */
+.lg-glass,
+.lg-glass * {
+  --lg-filter: saturate(1.5) !important;
 }

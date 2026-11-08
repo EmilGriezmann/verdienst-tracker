@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { setUser } from "@/lib/user";
+import { Button, Glass, Input } from "glisse";
 
 export default function NameSelect() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function NameSelect() {
 
   return (
     <div className="center">
-      <div className="card" style={{ width: 360 }}>
+      <Glass className="card" style={{ width: 360 }}>
         <h1>Wer bist du?</h1>
         <p className="subtitle">Wähle deinen Namen, um loszulegen.</p>
 
@@ -54,9 +55,9 @@ export default function NameSelect() {
 
         <div className="name-list">
           {names.map((n) => (
-            <button key={n} onClick={() => choose(n)}>
+            <Button key={n} onClick={() => choose(n)}>
               {n}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -65,19 +66,19 @@ export default function NameSelect() {
         )}
 
         <div className="add-name">
-          <input
+          <Input
             placeholder="Neuer Name…"
             value={newName}
-            onChange={(e) => setNewName(e.target.value)}
+            onValueChange={setNewName}
             onKeyDown={(e) => e.key === "Enter" && addName()}
           />
-          <button className="btn-ghost" onClick={addName}>
+          <Button variant="filled" onClick={addName}>
             Hinzufügen
-          </button>
+          </Button>
         </div>
 
         {error && <div className="msg err">{error}</div>}
-      </div>
+      </Glass>
     </div>
   );
 }
