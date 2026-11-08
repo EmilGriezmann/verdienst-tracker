@@ -1,3 +1,5 @@
+// glisse zuerst, damit globals.css darueber noch anpassen kann.
+import "glisse/styles.css";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Nav from "./Nav";
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#eef2fb",
   width: "device-width",
   initialScale: 1,
   // erlaubt echtes Vollbild unter dem iPhone-Notch
@@ -39,8 +41,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // data-theme="light" pinnt glisse auf das helle Thema. Die App ist bewusst
+  // nur hell; ohne das waeren die Glas-Elemente im Dark-Mode des Systems
+  // dunkel, waehrend der Rest der Seite weiter hell bleibt.
   return (
-    <html lang="de">
+    <html lang="de" data-theme="light">
       <body>
         <Nav />
         {children}

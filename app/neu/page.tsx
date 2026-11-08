@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase, type Earning } from "@/lib/supabase";
 import { getUser } from "@/lib/user";
 import { CATEGORIES } from "@/lib/categories";
+import { Button, Glass, Input, SegmentedControl } from "glisse";
 
 type Mode = "total" | "hourly";
 
@@ -153,7 +154,7 @@ export default function NewEntry() {
 
   return (
     <div className="container">
-      <div className="card">
+      <Glass className="card">
         {/* Kategorie */}
         <div className="field">
           <label>Kategorie</label>
@@ -168,30 +169,26 @@ export default function NewEntry() {
 
         {/* Umschalter Gesamtbetrag / Stundensatz */}
         <label>Wie rechnest du?</label>
-        <div className="toggle">
-          <button
-            className={mode === "total" ? "on" : ""}
-            onClick={() => setMode("total")}
-          >
-            Gesamtbetrag
-          </button>
-          <button
-            className={mode === "hourly" ? "on" : ""}
-            onClick={() => setMode("hourly")}
-          >
-            Stundensatz
-          </button>
-        </div>
+        <SegmentedControl
+          className="toggle-seg"
+          aria-label="Wie rechnest du?"
+          items={[
+            { value: "total", label: "Gesamtbetrag" },
+            { value: "hourly", label: "Stundensatz" },
+          ]}
+          value={mode}
+          onValueChange={(v) => setMode(v as Mode)}
+        />
 
         {mode === "total" ? (
           <div className="field">
             <label>Betrag (€)</label>
-            <input
+            <Input
               type="number"
               inputMode="decimal"
               placeholder="z. B. 120"
               value={total}
-              onChange={(e) => setTotal(e.target.value)}
+              onValueChange={setTotal}
             />
           </div>
         ) : (
@@ -199,22 +196,22 @@ export default function NewEntry() {
             <div className="row">
               <div className="field">
                 <label>Stundensatz (€)</label>
-                <input
+                <Input
                   type="number"
                   inputMode="decimal"
                   placeholder="z. B. 15"
                   value={rate}
-                  onChange={(e) => setRate(e.target.value)}
+                  onValueChange={setRate}
                 />
               </div>
               <div className="field">
                 <label>Stunden</label>
-                <input
+                <Input
                   type="number"
                   inputMode="decimal"
                   placeholder="z. B. 8"
                   value={hours}
-                  onChange={(e) => setHours(e.target.value)}
+                  onValueChange={setHours}
                 />
               </div>
             </div>
@@ -229,35 +226,32 @@ export default function NewEntry() {
 
         <div className="field" style={{ marginTop: 6 }}>
           <label>Datum</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <Input type="date" value={date} onValueChange={setDate} />
         </div>
 
-        <button className="btn" onClick={save} disabled={!canSave || saving}>
+        <Button
+          className="btn-save"
+          variant="filled"
+          onClick={save}
+          disabled={!canSave || saving}
+        >
           {saving
             ? "Speichert…"
             : editingId
               ? "Änderungen speichern"
               : "Speichern"}
-        </button>
+        </Button>
 
         {editingId && (
-          <button
-            className="btn-ghost"
-            style={{ width: "100%", marginTop: 10, padding: "11px" }}
-            onClick={resetForm}
-          >
+          <Button className="btn-cancel" onClick={resetForm}>
             Abbrechen
-          </button>
+          </Button>
         )}
 
         {msg && (
           <div className={`msg ${msg.ok ? "ok" : "err"}`}>{msg.text}</div>
         )}
-      </div>
+      </Glass>
 
       {/* Vergangene Sessions */}
       <div className="sessions">
@@ -266,7 +260,7 @@ export default function NewEntry() {
           <p className="empty">Noch keine Einträge.</p>
         ) : (
           rows.map((e) => (
-            <div
+            <Glass
               key={e.id}
               className={`session ${editingId === e.id ? "editing" : ""}`}
             >
@@ -283,14 +277,19 @@ export default function NewEntry() {
                 </div>
               </div>
               <div className="session-actions">
-                <button onClick={() => startEdit(e)} aria-label="Bearbeiten">
-                  ✏️
-                </button>
-                <button onClick={() => remove(e)} aria-label="Löschen">
-                  🗑️
-                </button>
+                <Button
+                  onClick={() => startEdit(e)}
+                  aria-label="Bearbeiten"
+                  icon={<span aria-hidden>✏️</span>}
+                />
+                <Button
+                  onClick={() => remove(e)}
+                  aria-label="Löschen"
+                  destructive
+                  icon={<span aria-hidden>🗑️</span>}
+                />
               </div>
-            </div>
+            </Glass>
           ))
         )}
       </div>

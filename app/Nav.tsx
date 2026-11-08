@@ -2,6 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { TabBar } from "glisse";
+
+// Die Reiter als Daten — die TabBar von glisse erwartet eine Liste.
+// `href` macht aus jedem Reiter einen echten Link, `link={Link}` sorgt dafuer,
+// dass dafuer der Next-Router statt eines harten Seitenwechsels benutzt wird.
+const TABS = [
+  { value: "/dashboard", label: "Vergleich", href: "/dashboard" },
+  { value: "/statistik", label: "Statistik", href: "/statistik" },
+  { value: "/neu", label: "Eintragen", href: "/neu" },
+];
 
 export default function Nav() {
   const pathname = usePathname();
@@ -11,26 +21,12 @@ export default function Nav() {
 
   return (
     <nav className="nav">
-      <div className="tabs">
-        <Link
-          href="/dashboard"
-          className={`tab ${pathname === "/dashboard" ? "active" : ""}`}
-        >
-          Vergleich
-        </Link>
-        <Link
-          href="/statistik"
-          className={`tab ${pathname === "/statistik" ? "active" : ""}`}
-        >
-          Statistik
-        </Link>
-        <Link
-          href="/neu"
-          className={`tab ${pathname === "/neu" ? "active" : ""}`}
-        >
-          Eintragen
-        </Link>
-      </div>
+      <TabBar
+        items={TABS}
+        value={TABS.some((t) => t.value === pathname) ? pathname : null}
+        link={Link}
+        aria-label="Hauptnavigation"
+      />
     </nav>
   );
 }
