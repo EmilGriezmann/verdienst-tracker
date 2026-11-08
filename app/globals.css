@@ -791,3 +791,27 @@ select {
 .result {
   margin-bottom: 14px;
 }
+
+/* PERFORMANCE, die eigentliche Ursache des Ruckelns.
+
+   glisse legt auf jede Glas-Flaeche nicht nur blur() + saturate(), sondern
+   zusaetzlich einen SVG-Filter als backdrop-filter:
+
+       backdrop-filter: blur(3px) url("#glisse-backdrop-4") saturate(1.5)
+
+   Das ist der Lichtbrechungs-Effekt an den Raendern. Chrome kann SVG-Filter
+   in backdrop-filter NICHT auf der Grafikkarte ausfuehren — die Flaeche
+   dahinter wird in jedem Frame auf dem Prozessor neu gerastert.
+   Deshalb ruckelte genau die obere Seitenhaelfte, wo Formularkarte,
+   Eingabefelder und TabBar stehen; weiter unten war es fluessig.
+
+   Gemessen in echtem Chrome auf /neu beim Scrollen durch die obere Haelfte:
+       mit Lichtbrechung    8 fps  (121,6 ms/Frame, schlechtester 183,3 ms)
+       ohne Lichtbrechung  60 fps  ( 16,7 ms/Frame, schlechtester  17,8 ms)
+
+   Wir behalten Unschaerfe und Farbsaettigung — die Optik bleibt Glas.
+   Es faellt nur die Brechung an den Kanten weg. */
+.lg-glass,
+.lg-glass * {
+  --lg-filter: saturate(1.5) !important;
+}
