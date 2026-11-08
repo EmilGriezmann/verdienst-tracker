@@ -608,13 +608,27 @@ button {
    ========================================================================== */
 
 /* Glas braucht etwas zum Durchscheinen. Deshalb liegt hinter der Seite ein
-   ruhiges, farbiges Feld statt Reinweiss. `background-attachment: fixed`
-   haelt es beim Scrollen still, so wie bei iOS hinter dem Glas.
-   Die Farben sind hell genug, dass dunkler Text darauf gut lesbar bleibt.
-   Wichtig: das Ganze gehoert auf <html>. Laege es nur auf <body>, wuerde die
-   Hintergrundfarbe von <html> es ueberdecken. */
+   ruhiges, farbiges Feld statt Reinweiss.
+
+   PERFORMANCE: Frueher stand hier `background-attachment: fixed` auf <html>.
+   Das ruckelt, weil der Browser den Verlauf bei JEDEM Scroll-Frame neu malen
+   muss — und darueber liegen lauter backdrop-filter-Flaechen, deren
+   Weichzeichner dann jedes Mal mitgerechnet wird.
+   Stattdessen: ein echtes, fest positioniertes Element hinter allem. Das
+   bekommt vom Browser eine eigene Compositing-Ebene und wird beim Scrollen
+   gar nicht neu gezeichnet — es wird nur verschoben. Gleiche Optik,
+   keine Rechenarbeit pro Frame. */
 html {
   min-height: 100%;
+  background-color: var(--bg);
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-color: var(--bg);
   background-image:
     radial-gradient(58% 50% at 10% 4%, rgba(37, 99, 235, 0.34), transparent 70%),
@@ -622,12 +636,43 @@ html {
     radial-gradient(52% 48% at 84% 86%, rgba(99, 102, 241, 0.3), transparent 72%),
     radial-gradient(44% 42% at 14% 94%, rgba(234, 179, 8, 0.2), transparent 72%),
     linear-gradient(168deg, #f1f5ff 0%, #e3eafb 55%, #edf0f8 100%);
-  background-attachment: fixed;
   background-size: cover;
 }
+
 /* <body> muss durchsichtig bleiben, sonst deckt es das Feld oben wieder zu. */
 body {
   background: transparent;
+}
+
+/* PERFORMANCE: Listenzeilen gibt es viele — Rangliste und Eintragsliste
+   koennen zweistellig werden. Jede backdrop-filter-Flaeche ist ein eigener
+   Weichzeichner-Durchlauf. Bei Listen faellt der Blur optisch kaum auf
+   (dahinter liegt ohnehin nur der ruhige Verlauf), kostet aber am meisten.
+   Darum: Blur raus, dafuer etwas deckender. Karten und KPI-Kacheln
+   behalten den echten Glas-Effekt. */
+.lg-glass.rank-row,
+.lg-glass.session {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+/* PERFORMANCE, der eigentliche Brocken: jeder glisse-<Button> ist eine eigene
+   backdrop-filter-Flaeche. In der Eintragsliste stehen pro Zeile zwei
+   (Bearbeiten / Loeschen) — bei ein paar Dutzend Eintraegen sind das
+   schnell 70+ Weichzeichner, die der Browser JEDEN Frame neu rechnet.
+   Gemessen: 837 ms mittlere Frame-Zeit beim Scrollen.
+   Kleine Buttons gewinnen durch den Blur optisch fast nichts, deshalb
+   bekommen sie eine schlicht deckendere Fuellung. Die grossen Flaechen
+   (Karten, KPI-Kacheln, TabBar) behalten echtes Glas. */
+.lg-button.lg-glass {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: rgba(255, 255, 255, 0.78);
+}
+
+.lg-button.lg-glass:hover {
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* ---------- Glas-Flaechen ---------- */
